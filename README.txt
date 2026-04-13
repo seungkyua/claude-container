@@ -12,7 +12,7 @@ nerdctl build \
 ```
 nerdctl run -d --name claude-container \
   -v "$(pwd):/workspace" \
-  -v "$HOME/.claude:/home/claude/.claude" \
+  -v "$HOME/.claude:/home/$(id -un)/.claude" \
   claude-container
 ```
 
