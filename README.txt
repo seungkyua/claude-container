@@ -10,16 +10,21 @@ nerdctl build \
 
 # Image run
 ```
+cd claude-sandbox
+
 nerdctl run -d --name claude-container \
-  -v "$(pwd):/workspace" \
-  -v "$HOME/.claude:/home/$(id -un)/.claude" \
+  -v "$(pwd):$(pwd)" \
+  -w "$(pwd)" \
+  -v "$HOME/.claude:/Users/$(id -un)/.claude" \
+  -v "$HOME/.claude.json:/Users/$(id -un)/.claude.json" \
+  -v "/Users/$(id -un)/Documents/works/ai:/Users/$(id -un)/Documents/works/ai" \
   claude-container
 ```
 
 
 # exec container
 ```
-nerdctl exec -it claude-container bash 2>/dev/null
+nerdctl exec -it -e TERM=$TERM claude-container bash 2>/dev/null
 ```
 
 # run claude
