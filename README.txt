@@ -13,6 +13,7 @@ nerdctl build \
 cd claude-sandbox
 
 nerdctl run -d --name claude-container \
+  --network host \
   -v "$(pwd):$(pwd)" \
   -w "$(pwd)" \
   -v "$HOME/.claude:/Users/$(id -un)/.claude" \
@@ -24,7 +25,7 @@ nerdctl run -d --name claude-container \
 
 # exec container
 ```
-nerdctl exec -it -e TERM=$TERM claude-container bash 2>/dev/null
+nerdctl exec -it claude-container bash 2>/dev/null
 ```
 
 # run claude
