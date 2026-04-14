@@ -8,6 +8,12 @@ nerdctl build \
   -t claude-container .
 ```
 
+
+# claude auto login from mac keychain
+security find-generic-password -s "Claude Code-credentials" -w \
+  > ~/.claude/.credentials.json
+
+
 # Image run
 ```
 cd claude-sandbox
