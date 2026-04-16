@@ -1,4 +1,4 @@
-# Image build
+## Image build
 
 ```
 nerdctl build \
@@ -9,32 +9,35 @@ nerdctl build \
 ```
 
 
-# claude auto login from mac keychain
+## 1. Claude auto login from mac keychain
+## 2. Run container
+## 3. Copy .claude.json file from host to container
+## 4. Change permission of .claude.json
+```
+cd /Users/$(id -un)/Documents/works/ai/claude-sandbox
+
 security find-generic-password -s "Claude Code-credentials" -w \
   > ~/.claude/.credentials.json
-
-
-# Image run
-```
-cd claude-sandbox
 
 nerdctl run -d --name claude-container \
   --network host \
   -v "$(pwd):$(pwd)" \
   -w "$(pwd)" \
   -v "$HOME/.claude:/Users/$(id -un)/.claude" \
-  -v "$HOME/.claude.json:/Users/$(id -un)/.claude.json" \
   -v "/Users/$(id -un)/Documents/works/ai:/Users/$(id -un)/Documents/works/ai" \
   claude-container
+
+nerdctl cp ~/.claude.json claude-container:/Users/ask.ahn/.claude.json
+nerdctl exec -u 0 claude-container chown $(id -un):$(id -g) /Users/ask.ahn/.claude.json
 ```
 
 
-# exec container
+## exec container
 ```
 nerdctl exec -it claude-container bash 2>/dev/null
 ```
 
-# run claude
+## run claude
 ```
 claude --dangerously-skip-permissions
 ```
